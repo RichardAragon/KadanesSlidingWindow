@@ -1,4 +1,4 @@
-# KadanesSlidingWindow
+# Kadane's Sliding Window
 Combines Kadane's Algorithm With a Sliding Window
 
 The ‘Kadane’s Sliding Window’ algorithm is a novel approach to finding the maximum sum of a subarray within an array, which may contain both positive and negative numbers. This algorithm is a fusion of the classic Kadane’s algorithm and the sliding window technique, both of which are well-established methods in computer science for solving array-based problems.
