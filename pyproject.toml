@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools", "wheel"] 
+
+[[project.authors]]
+name = "Richard Aragon"
+email = "RichardAragon@users.noreply.github.com"
+
+[project.license]
+text = "MIT"
+
+[project.urls]
+Homepage = "https://github.com/andyz245/LanguageAgentTreeSearch"
+"Bug Tracker" = "https://github.com/andyz245/LanguageAgentTreeSearch/issues"
+
+[project]
+name = "kadane"
+version = "0.1.0"
+description = "A Python package for Kadane's algorithm with a sliding window."
+readme = "README.md"
+
+dependencies = [
+    # AI
+    "torch",
+    "transformers",
+    
+    # QA
+    "flake8",
+    
+    # Testing
+    "pytest",
+]
+requires-python = ">=3.8"
+
+keywords = [
+    "Kadane's-algorithm",
+    "sliding-window-technique",
+    "maximum-subarray",
+    "dynamic-programming",
+]
+
+classifiers = [
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3",
+]

@@ -1,0 +1,66 @@
+# This action builds the project, lints it, and tests it on python 3.8 - 3.12
+
+# Features:
+# * Flake8: Break the build for syntax errors (E9xx, F6xx, F7xx, F8xx)
+# * Flake8: Report long lines (>80 chars) and complex files (>10 mccabe)
+# * Pytest: Test package against python 3.8-3.11 using ubuntu
+# * Pytest: Test package against python 3.12 using ubuntu, win, and mac
+
+name: CI
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {id: 1, python-version: "3.12", os: ubuntu-latest }
+          - {id: 2, python-version: "3.12", os: windows-latest }
+          - {id: 3, python-version: "3.12", os: macos-latest }
+          - {id: 4, python-version: "3.11", os: ubuntu-latest }
+          - {id: 5, python-version: "3.10", os: ubuntu-latest }
+          - {id: 6, python-version: "3.9", os: ubuntu-latest }
+          - {id: 7, python-version: "3.8", os: ubuntu-latest }
+    runs-on: ${{matrix.os}}
+    name: ${{matrix.id}}. Python ${{ matrix.python-version }} on ${{matrix.os}}
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Install package and dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install .
+    
+    - name: Lint with flake8
+      run: |
+        # Define breaking/non-breaking linters
+        lint_hard='flake8 . --count --show-source --statistics'
+        lint_soft='flake8 . --count --show-source --statistics --exit-zero'
+
+        # Break build on syntax errors
+        # E9xx: Runtime level SyntaxError or IndentationError
+        # F6xx: More obscure syntax issues
+        # F7xx: Even more obscure syntax errors
+        # F8xx: Undefined names or duplicate arguments
+        $lint_hard --select=E9,F6,F7,F8
+
+        # Report other issues:
+        # * Lines with >80 chars
+        # * Files with mccabe complexity > 10
+        $lint_soft --max-line-length=80 --max-complexity=10
+
+    - name: Test with pytest
+      run: |
+        pytest
